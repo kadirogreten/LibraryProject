@@ -37,7 +37,7 @@ namespace Library.API.Controllers
         private UserManager<LibraryUser> _userManager;
 
         private SignInManager<LibraryUser> _signInManager;
-        private ILogger<LibraryUser> _logger;
+        private ILogger<AccountsController> _logger;
 
 
 
@@ -52,7 +52,7 @@ namespace Library.API.Controllers
         /// <param name="logger"></param>
         /// <param name="uow"></param>
         public AccountsController(UserManager<LibraryUser> userManager, SignInManager<LibraryUser> signInManager,
-            ILogger<LibraryUser> logger, IUnitOfWork uow)
+            ILogger<AccountsController> logger, IUnitOfWork uow)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -65,7 +65,7 @@ namespace Library.API.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Kullanıcı login
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
@@ -210,7 +210,7 @@ namespace Library.API.Controllers
         }
 
         /// <summary>
-        /// 
+        /// Kullanıcı kayıt olma
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
@@ -304,8 +304,55 @@ namespace Library.API.Controllers
             return Ok(response);
         }
 
+
+
         /// <summary>
-        /// 
+        /// Kullanıcı kitap rezervasyok geçmişi
+        /// </summary>
+        /// <returns></returns>
+        [Route("GetUserRezervationHistory")]
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> GetUserRezervationHistory()
+        {
+            Stopwatch exp = new Stopwatch();
+            exp.Start();
+            long exec_time = 0;
+            List<string> errors = new List<string>();
+            _logger.LogInformation($"GetUserRezervationHistory:", DateTime.Now);
+
+            ResponseMessageFilter response;
+
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+
+            var rezervations = _uow.BookRezervation.GetBookRezervations(a => a.UserId == user.Id).ToList();
+
+            exp.Stop();
+
+            exec_time = exp.ElapsedMilliseconds;
+
+            _logger.LogInformation($"GetUserRezervationHistory: {rezervations.Count}", DateTime.Now);
+            response = new ResponseMessageFilter
+            {
+                Code = System.Net.HttpStatusCode.OK,
+                Success = true,
+                Message = "Kullanıcı kitap rezervleri getirildi.",
+                ExecTime = exec_time,
+                Data = new
+                {
+                    ReturnedBooks = rezervations.Where(a => a.ReturnedDate != null).Select(a=> new {Id = a.Id, BookId = a.BookId, BookTitle = a.Book.Title }).ToList(),
+                    NotReturnedBooks = rezervations.Where(a => a.ReturnedDate == null).Select(a => new { Id = a.Id, BookId = a.BookId, BookTitle = a.Book.Title }).ToList()
+                }
+            };
+
+            return Ok(response);
+        }
+
+
+
+
+        /// <summary>
+        /// Logout
         /// </summary>
         /// <returns></returns>
         [Authorize]

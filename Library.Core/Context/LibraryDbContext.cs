@@ -14,7 +14,9 @@ namespace Library.Core.Context
 
         public LibraryDbContext(DbContextOptions options) : base(options) { }
 
-        
+        public DbSet<Book> Book { get; set; }
+        public DbSet<BookRezervation> BookRezervation { get; set; }
+
 
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -33,7 +35,11 @@ namespace Library.Core.Context
             builder.Entity<IdentityUserRole<string>>().ToTable("LIBRARY_API_USER_ROLES");
             builder.Entity<IdentityRoleClaim<string>>().ToTable("LIBRARY_API_ROLE_CLAIMS");
             builder.Entity<IdentityRole>().ToTable("LIBRARY_API_ROLES");
-           
+
+
+            builder.Entity<Book>().ToTable("LIBRARY_API_BOOK");
+            builder.Entity<BookRezervation>().ToTable("LIBRARY_API_BOOK_REZERVATION");
+
 
 
         }

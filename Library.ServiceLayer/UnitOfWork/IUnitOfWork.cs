@@ -9,6 +9,11 @@ namespace Library.ServiceLayer.UnitOfWork
     {
         public IUserRepository LibraryUser { get; }
 
+        public IBookRepository Book { get; }
+
+        public IBookRezervationRepository BookRezervation { get; }
+
+
         int Complete();
 
     }

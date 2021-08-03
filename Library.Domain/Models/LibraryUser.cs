@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -10,7 +11,9 @@ namespace Library.Domain.Models
 {
     public class LibraryUser : IdentityUser
     {
+        [MaxLength(128, ErrorMessage = "Maksimum 128 karakter olabilir.")]
         public string FirstName { get; set; }
+        [MaxLength(128, ErrorMessage = "Maksimum 128 karakter olabilir.")]
         public string LastName { get; set; }
         public DateTimeOffset? CreatedAt { get; set; } = DateTimeOffset.Now;
 

@@ -24,12 +24,19 @@ namespace Library.ServiceLayer.UnitOfWork
 
             LibraryUser = new UserRepository(_context);
 
+            Book = new BookRepository(_context);
+
+            BookRezervation = new BookRezervationRepository(_context);
+
            
         }
 
 
         public IUserRepository LibraryUser { get; private set; }
-       
+
+        public IBookRepository Book { get; private set; }
+
+        public IBookRezervationRepository BookRezervation { get; private set; }
 
         public int Complete()
         {

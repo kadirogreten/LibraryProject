@@ -9,14 +9,13 @@
             /
             </summary>
         </member>
-        <member name="M:Library.API.Controllers.AccountsController.#ctor(Microsoft.AspNetCore.Identity.UserManager{Library.Domain.Models.LibraryUser},Microsoft.AspNetCore.Identity.SignInManager{Library.Domain.Models.LibraryUser},Microsoft.Extensions.Logging.ILogger{Library.Domain.Models.LibraryUser},Microsoft.AspNetCore.DataProtection.IDataProtectionProvider,Library.ServiceLayer.UnitOfWork.IUnitOfWork)">
+        <member name="M:Library.API.Controllers.AccountsController.#ctor(Microsoft.AspNetCore.Identity.UserManager{Library.Domain.Models.LibraryUser},Microsoft.AspNetCore.Identity.SignInManager{Library.Domain.Models.LibraryUser},Microsoft.Extensions.Logging.ILogger{Library.API.Controllers.AccountsController},Library.ServiceLayer.UnitOfWork.IUnitOfWork)">
             <summary>
             
             </summary>
             <param name="userManager"></param>
             <param name="signInManager"></param>
             <param name="logger"></param>
-            <param name="provider"></param>
             <param name="uow"></param>
         </member>
         <member name="M:Library.API.Controllers.AccountsController.Login(Library.API.ViewModels.LoginViewModel)">
@@ -33,10 +32,64 @@
             <param name="model"></param>
             <returns></returns>
         </member>
+        <member name="M:Library.API.Controllers.AccountsController.GetUserRezervationHistory">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Library.API.Controllers.AccountsController.Logout">
             <summary>
             
             </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Library.API.Controllers.BookController">
+            <summary>
+            /
+            </summary>
+        </member>
+        <member name="M:Library.API.Controllers.BookController.#ctor(Microsoft.Extensions.Logging.ILogger{Library.API.Controllers.BookController},Library.ServiceLayer.UnitOfWork.IUnitOfWork)">
+            <summary>
+            
+            </summary>
+            <param name="logger"></param>
+            <param name="uow"></param>
+        </member>
+        <member name="M:Library.API.Controllers.BookController.GetAvailableBooks">
+             <summary>
+             Rezerve edilebilir kitaplar listesi
+             </summary>
+             <returns></returns>
+            
+        </member>
+        <member name="M:Library.API.Controllers.BookController.GetAvailableBook(System.Nullable{System.Int32})">
+            <summary>
+            Rezerve edilebilir kitap detayı
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Library.API.Controllers.BookController.RezerveBook(System.Nullable{System.Int32})">
+            <summary>
+            Kitap rezerve et.
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Library.API.Controllers.BookController.ReturnedRezerveBook(System.Nullable{System.Int32},System.Nullable{System.Int32})">
+            <summary>
+            Kitap iade et.
+            </summary>
+            <param name="id"></param>
+            <param name="rezervationId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Library.API.Controllers.BookController.CreateBook(Library.Domain.Models.Book)">
+            <summary>
+            
+            </summary>
+            <param name="model"></param>
             <returns></returns>
         </member>
         <member name="T:Library.API.Filters.AdminSafeListMiddleware">
