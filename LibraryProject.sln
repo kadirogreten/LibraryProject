@@ -3,13 +3,18 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31321.278
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Library.API", "Library.API\Library.API.csproj", "{1C667B3D-F3A4-4498-AECF-EF1D287F011A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Library.API", "Library.API\Library.API.csproj", "{1C667B3D-F3A4-4498-AECF-EF1D287F011A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Library.Domain", "Library.Domain\Library.Domain.csproj", "{AF01D28D-F9BE-45A7-9B3E-98720517E525}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Library.Domain", "Library.Domain\Library.Domain.csproj", "{AF01D28D-F9BE-45A7-9B3E-98720517E525}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Library.Core", "Library.Core\Library.Core.csproj", "{3A894809-F27E-423B-A46F-8041436F7D44}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Library.Core", "Library.Core\Library.Core.csproj", "{3A894809-F27E-423B-A46F-8041436F7D44}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Library.ServiceLayer", "Library.ServiceLayer\Library.ServiceLayer.csproj", "{DDAD845E-B8B5-452B-BEBE-9B0D1FE70E89}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Library.ServiceLayer", "Library.ServiceLayer\Library.ServiceLayer.csproj", "{DDAD845E-B8B5-452B-BEBE-9B0D1FE70E89}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C69281F1-BF57-4899-B149-84D355D65FBE}"
+	ProjectSection(SolutionItems) = preProject
+		Readme.txt = Readme.txt
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
