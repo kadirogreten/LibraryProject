@@ -8,6 +8,46 @@ namespace Library.Core.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "LIBRARY_API_BOOK",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    Author = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    StockCount = table.Column<int>(type: "int", nullable: false),
+                    IsAvailable = table.Column<bool>(type: "bit", nullable: false),
+                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Modified = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Status = table.Column<byte>(type: "tinyint", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LIBRARY_API_BOOK", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "LIBRARY_API_LOG",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    MachineName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Logged = table.Column<DateTime>(type: "datetime", nullable: false),
+                    Level = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Message = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Logger = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
+                    Callsite = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Exception = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LIBRARY_API_LOG", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "LIBRARY_API_ROLES",
                 columns: table => new
                 {
@@ -26,8 +66,8 @@ namespace Library.Core.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FirstName = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: true),
+                    LastName = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: true),
                     CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -68,6 +108,38 @@ namespace Library.Core.Migrations
                         principalTable: "LIBRARY_API_ROLES",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "LIBRARY_API_BOOK_REZERVATION",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    BookId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    ReturnedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Created = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Modified = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ModifiedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Status = table.Column<byte>(type: "tinyint", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LIBRARY_API_BOOK_REZERVATION", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_LIBRARY_API_BOOK_REZERVATION_LIBRARY_API_BOOK_BookId",
+                        column: x => x.BookId,
+                        principalTable: "LIBRARY_API_BOOK",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_LIBRARY_API_BOOK_REZERVATION_LIBRARY_API_USERS_UserId",
+                        column: x => x.UserId,
+                        principalTable: "LIBRARY_API_USERS",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -156,6 +228,16 @@ namespace Library.Core.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_LIBRARY_API_BOOK_REZERVATION_BookId",
+                table: "LIBRARY_API_BOOK_REZERVATION",
+                column: "BookId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_LIBRARY_API_BOOK_REZERVATION_UserId",
+                table: "LIBRARY_API_BOOK_REZERVATION",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_LIBRARY_API_ROLE_CLAIMS_RoleId",
                 table: "LIBRARY_API_ROLE_CLAIMS",
                 column: "RoleId");
@@ -198,6 +280,12 @@ namespace Library.Core.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "LIBRARY_API_BOOK_REZERVATION");
+
+            migrationBuilder.DropTable(
+                name: "LIBRARY_API_LOG");
+
+            migrationBuilder.DropTable(
                 name: "LIBRARY_API_ROLE_CLAIMS");
 
             migrationBuilder.DropTable(
@@ -211,6 +299,9 @@ namespace Library.Core.Migrations
 
             migrationBuilder.DropTable(
                 name: "LIBRARY_API_USER_TOKENS");
+
+            migrationBuilder.DropTable(
+                name: "LIBRARY_API_BOOK");
 
             migrationBuilder.DropTable(
                 name: "LIBRARY_API_ROLES");

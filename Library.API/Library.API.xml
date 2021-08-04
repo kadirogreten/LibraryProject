@@ -20,28 +20,36 @@
         </member>
         <member name="M:Library.API.Controllers.AccountsController.Login(Library.API.ViewModels.LoginViewModel)">
             <summary>
-            
+            Kullanıcı login
             </summary>
             <param name="model"></param>
             <returns></returns>
         </member>
         <member name="M:Library.API.Controllers.AccountsController.Register(Library.API.ViewModels.RegisterViewModel)">
             <summary>
-            
+            Kullanıcı kayıt olma
             </summary>
             <param name="model"></param>
             <returns></returns>
         </member>
         <member name="M:Library.API.Controllers.AccountsController.GetUserRezervationHistory">
             <summary>
-            
+            Kullanıcı kitap rezervasyok geçmişi
             </summary>
             <returns></returns>
         </member>
         <member name="M:Library.API.Controllers.AccountsController.Logout">
             <summary>
+            Logout
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Library.API.Controllers.AccountsController.IsUsernameAndPassword(System.String,System.String)">
+            <summary>
             
             </summary>
+            <param name="username"></param>
+            <param name="password"></param>
             <returns></returns>
         </member>
         <member name="T:Library.API.Controllers.BookController">
@@ -85,9 +93,9 @@
             <param name="rezervationId"></param>
             <returns></returns>
         </member>
-        <member name="M:Library.API.Controllers.BookController.CreateBook(Library.Domain.Models.Book)">
+        <member name="M:Library.API.Controllers.BookController.CreateBook(Library.API.ViewModels.BookViewModel)">
             <summary>
-            
+            Kitap yarat
             </summary>
             <param name="model"></param>
             <returns></returns>
@@ -251,6 +259,61 @@
             </summary>
             <param name="args"></param>
             <returns></returns>
+        </member>
+        <member name="T:Library.API.Startup">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Library.API.Startup.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            
+            </summary>
+            <param name="configuration"></param>
+        </member>
+        <member name="P:Library.API.Startup.Configuration">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Library.API.Startup.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            
+            </summary>
+            <param name="services"></param>
+        </member>
+        <member name="M:Library.API.Startup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IWebHostEnvironment,Microsoft.AspNetCore.Mvc.ApiExplorer.IApiVersionDescriptionProvider)">
+            <summary>
+            
+            </summary>
+            <param name="app"></param>
+            <param name="env"></param>
+            <param name="provider"></param>
+        </member>
+        <member name="T:Library.API.ViewModels.BookViewModel">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Library.API.ViewModels.BookViewModel.Title">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Library.API.ViewModels.BookViewModel.Author">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Library.API.ViewModels.BookViewModel.StockCount">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Library.API.ViewModels.BookViewModel.IsAvailable">
+            <summary>
+            
+            </summary>
         </member>
     </members>
 </doc>

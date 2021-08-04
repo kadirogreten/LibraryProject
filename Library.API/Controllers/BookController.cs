@@ -659,7 +659,7 @@ namespace Library.API.Controllers
         /// <returns></returns>
         [HttpPost]
         [Route("CreateBook")]
-        public IActionResult CreateBook(Book model)
+        public IActionResult CreateBook(BookViewModel model)
         {
             Stopwatch exp = new Stopwatch();
             exp.Start();

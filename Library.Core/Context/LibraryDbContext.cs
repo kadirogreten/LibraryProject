@@ -16,6 +16,7 @@ namespace Library.Core.Context
 
         public DbSet<Book> Book { get; set; }
         public DbSet<BookRezervation> BookRezervation { get; set; }
+        public DbSet<Log> Log { get; set; }
 
 
 
@@ -39,6 +40,27 @@ namespace Library.Core.Context
 
             builder.Entity<Book>().ToTable("LIBRARY_API_BOOK");
             builder.Entity<BookRezervation>().ToTable("LIBRARY_API_BOOK_REZERVATION");
+            
+
+
+            builder.Entity<Log>(entity =>
+            {
+                entity.ToTable("LIBRARY_API_LOG");
+
+                entity.Property(e => e.Level)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.Logged).HasColumnType("datetime");
+
+                entity.Property(e => e.Logger).HasMaxLength(250);
+
+                entity.Property(e => e.MachineName)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.Message).IsRequired();
+            });
 
 
 
