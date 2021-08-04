@@ -71,7 +71,8 @@ namespace Library.API.Controllers
             {
                 var availableBooks = _uow.Book
                     .Where(a => a.IsAvailable && a.StockCount > 0 && a.Status == 1)
-                    .Select(a=> new { Id = a.Id, Title = a.Title, Author = a.Author, StockCount = a.StockCount, Available = a.IsAvailable}).ToList();
+                    .Select(a=> new { Id = a.Id, Title = a.Title, Author = a.Author, StockCount = a.StockCount, Available = a.IsAvailable})
+                    .ToList();
 
                 exp.Stop();
 
@@ -101,7 +102,7 @@ namespace Library.API.Controllers
                 response = new ResponseMessageFilter
                 {
                     Code = System.Net.HttpStatusCode.InternalServerError,
-                    Success = true,
+                    Success = false,
                     Errors = errors.ToArray(),
                     ExecTime = exec_time,
                     Data = new
@@ -148,7 +149,7 @@ namespace Library.API.Controllers
                 response = new ResponseMessageFilter
                 {
                     Code = System.Net.HttpStatusCode.NotAcceptable,
-                    Success = true,
+                    Success = false,
                     Errors = errors.ToArray(),
                     ExecTime = exec_time,
                     Data = new
@@ -180,7 +181,7 @@ namespace Library.API.Controllers
                     response = new ResponseMessageFilter
                     {
                         Code = System.Net.HttpStatusCode.NotAcceptable,
-                        Success = true,
+                        Success = false,
                         Errors = errors.ToArray(),
                         ExecTime = exec_time,
                         Data = new
@@ -223,7 +224,7 @@ namespace Library.API.Controllers
                 response = new ResponseMessageFilter
                 {
                     Code = System.Net.HttpStatusCode.InternalServerError,
-                    Success = true,
+                    Success = false,
                     Errors = errors.ToArray(),
                     ExecTime = exec_time,
                     Data = new
@@ -273,7 +274,7 @@ namespace Library.API.Controllers
                 response = new ResponseMessageFilter
                 {
                     Code = System.Net.HttpStatusCode.NotAcceptable,
-                    Success = true,
+                    Success = false,
                     Errors = errors.ToArray(),
                     ExecTime = exec_time,
                     Data = new
@@ -303,7 +304,7 @@ namespace Library.API.Controllers
                     response = new ResponseMessageFilter
                     {
                         Code = System.Net.HttpStatusCode.NotAcceptable,
-                        Success = true,
+                        Success = false,
                         Errors = errors.ToArray(),
                         ExecTime = exec_time,
                         Data = new
@@ -331,7 +332,7 @@ namespace Library.API.Controllers
                     response = new ResponseMessageFilter
                     {
                         Code = System.Net.HttpStatusCode.NotAcceptable,
-                        Success = true,
+                        Success = false,
                         Errors = errors.ToArray(),
                         ExecTime = exec_time,
                         Data = new
@@ -359,7 +360,7 @@ namespace Library.API.Controllers
                     response = new ResponseMessageFilter
                     {
                         Code = System.Net.HttpStatusCode.NotAcceptable,
-                        Success = true,
+                        Success = false,
                         Errors = errors.ToArray(),
                         ExecTime = exec_time,
                         Data = new
@@ -388,7 +389,11 @@ namespace Library.API.Controllers
 
 
                 availableBook.StockCount--;
-                availableBook.IsAvailable = false;
+                if (availableBook.StockCount <= 0)
+                {
+                    availableBook.IsAvailable = false;
+                }
+                
 
                 _uow.Book.Update(availableBook);
 
@@ -428,7 +433,7 @@ namespace Library.API.Controllers
                 response = new ResponseMessageFilter
                 {
                     Code = System.Net.HttpStatusCode.InternalServerError,
-                    Success = true,
+                    Success = false,
                     Errors = errors.ToArray(),
                     ExecTime = exec_time,
                     Data = new
@@ -496,7 +501,7 @@ namespace Library.API.Controllers
 
             try
             {
-                var availableBook = _uow.Book.FindOne(a => a.IsAvailable == false && a.Id == id);
+                var availableBook = _uow.Book.FindOne(a => a.Id == id);
 
                 if (availableBook == null)
                 {
@@ -511,7 +516,7 @@ namespace Library.API.Controllers
                     response = new ResponseMessageFilter
                     {
                         Code = System.Net.HttpStatusCode.NotAcceptable,
-                        Success = true,
+                        Success = false,
                         Errors = errors.ToArray(),
                         ExecTime = exec_time,
                         Data = new
@@ -539,7 +544,7 @@ namespace Library.API.Controllers
                     response = new ResponseMessageFilter
                     {
                         Code = System.Net.HttpStatusCode.NotAcceptable,
-                        Success = true,
+                        Success = false,
                         Errors = errors.ToArray(),
                         ExecTime = exec_time,
                         Data = new
@@ -567,7 +572,7 @@ namespace Library.API.Controllers
                     response = new ResponseMessageFilter
                     {
                         Code = System.Net.HttpStatusCode.NotAcceptable,
-                        Success = true,
+                        Success = false,
                         Errors = errors.ToArray(),
                         ExecTime = exec_time,
                         Data = new
@@ -630,7 +635,7 @@ namespace Library.API.Controllers
                 response = new ResponseMessageFilter
                 {
                     Code = System.Net.HttpStatusCode.InternalServerError,
-                    Success = true,
+                    Success = false,
                     Errors = errors.ToArray(),
                     ExecTime = exec_time,
                     Data = new
@@ -677,7 +682,7 @@ namespace Library.API.Controllers
                 response = new ResponseMessageFilter
                 {
                     Code = System.Net.HttpStatusCode.NotAcceptable,
-                    Success = true,
+                    Success = false,
                     Errors = errors.ToArray(),
                     ExecTime = exec_time,
                     Data = new

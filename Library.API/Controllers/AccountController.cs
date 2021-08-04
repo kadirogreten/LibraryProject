@@ -160,54 +160,7 @@ namespace Library.API.Controllers
         }
 
 
-        private async Task<bool> IsUsernameAndPassword(string username, string password)
-        {
-            var user = await this._userManager.FindByEmailAsync(username);
-
-            return await this._userManager.CheckPasswordAsync(user, password);
-        }
-
-
-        private async Task<dynamic> GenerateToken(string username)
-        {
-
-            var user = await _userManager.FindByNameAsync(username);
-
-            var userRole = await _userManager.GetRolesAsync(user);
-
-            var claims = new List<Claim> {
-                new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid ().ToString ()),
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Name,username),
-                new Claim(JwtRegisteredClaimNames.Nbf, new DateTimeOffset(DateTime.Now).ToUnixTimeSeconds().ToString()),
-                new Claim(JwtRegisteredClaimNames.Exp, new DateTimeOffset(DateTime.Now.AddDays(1)).ToUnixTimeSeconds().ToString())
-                };
-
-            RoleExtension.AddRolesToClaims(claims, userRole);
-
-            var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("KadirOgreten2020!!!!"));
-
-            var token = new JwtSecurityToken(
-                issuer: "https://localhost:5001",
-                audience: "https://localhost:5001",
-                expires: DateTime.Now.AddYears(1),
-                claims: claims,
-                signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
-            );
-
-
-            var response = new
-            {
-                token = new JwtSecurityTokenHandler().WriteToken(token),
-                expiration = token.ValidTo,
-                userName = user.UserName,
-                userId = user.Id
-            };
-
-            return response;
-
-        }
+        
 
         /// <summary>
         /// Kullanıcı kayıt olma
@@ -238,7 +191,7 @@ namespace Library.API.Controllers
                 errors = ModelState.Values.FirstOrDefault().Errors.Select(a=>a.ErrorMessage).ToList();
                 response = new ResponseMessageFilter
                 {
-                    Code = System.Net.HttpStatusCode.Unauthorized,
+                    Code = System.Net.HttpStatusCode.NotAcceptable,
                     Success = false,
                     ExecTime = exec_time,
                     Errors = errors.ToArray(),
@@ -360,17 +313,122 @@ namespace Library.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Logout()
         {
+
+            Stopwatch exp = new Stopwatch();
+            exp.Start();
+            long exec_time = 0;
+            List<string> errors = new List<string>();
+            _logger.LogInformation($"Logout:", DateTime.Now);
+
+            ResponseMessageFilter response;
             try
             {
                 await _signInManager.SignOutAsync();
-                return Ok(new { Logout = true, Message = "" });
+                exp.Stop();
+
+                exec_time = exp.ElapsedMilliseconds;
+
+                _logger.LogInformation($"Logout successfully", DateTime.Now);
+                response = new ResponseMessageFilter
+                {
+                    Code = System.Net.HttpStatusCode.OK,
+                    Success = true,
+                    Message = "Çıkış işlemi başarılı!",
+                    ExecTime = exec_time,
+                    Data = new
+                    {
+
+                    }
+                };
+
+                return Ok(response);
             }
             catch (System.Exception ex)
             {
-                return Ok(new { Logout = false, Message = ex.Message });
+                exp.Stop();
+
+                exec_time = exp.ElapsedMilliseconds;
+                errors.Add(ex.Message);
+
+                _logger.LogInformation($"Logout unsuccessfully {ex.ToString()}", DateTime.Now);
+                response = new ResponseMessageFilter
+                {
+                    Code = System.Net.HttpStatusCode.InternalServerError,
+                    Success = false,
+                    ExecTime = exec_time,
+                    Errors = errors.ToArray(),
+                    Data = new
+                    {
+
+                    }
+                };
+
+
+                return Ok(response);
             }
 
         }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        #region functions
+
+        private async Task<bool> IsUsernameAndPassword(string username, string password)
+        {
+            var user = await this._userManager.FindByEmailAsync(username);
+
+            return await this._userManager.CheckPasswordAsync(user, password);
+        }
+
+
+        private async Task<dynamic> GenerateToken(string username)
+        {
+
+            var user = await _userManager.FindByNameAsync(username);
+
+            var userRole = await _userManager.GetRolesAsync(user);
+
+            var claims = new List<Claim> {
+                new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid ().ToString ()),
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim(ClaimTypes.Name,username),
+                new Claim(JwtRegisteredClaimNames.Nbf, new DateTimeOffset(DateTime.Now).ToUnixTimeSeconds().ToString()),
+                new Claim(JwtRegisteredClaimNames.Exp, new DateTimeOffset(DateTime.Now.AddDays(1)).ToUnixTimeSeconds().ToString())
+                };
+
+            RoleExtension.AddRolesToClaims(claims, userRole);
+
+            var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("KadirOgreten2021!!!!"));
+
+            var token = new JwtSecurityToken(
+                issuer: "https://localhost:5001",
+                audience: "https://localhost:5001",
+                expires: DateTime.Now.AddYears(1),
+                claims: claims,
+                signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
+            );
+
+
+            var response = new
+            {
+                token = new JwtSecurityTokenHandler().WriteToken(token),
+                expiration = token.ValidTo,
+                userName = user.UserName,
+                userId = user.Id
+            };
+
+            return response;
+
+        }
+
+
+        #endregion
 
     }
 }

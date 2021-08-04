@@ -1,4 +1,4 @@
-using Library.API.AuthExtensions;
+ï»¿using Library.API.AuthExtensions;
 using Library.API.Filters;
 using Library.API.ViewModels;
 using Library.Core.Context;
@@ -32,16 +32,29 @@ using System.Threading.Tasks;
 
 namespace Library.API
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class Startup
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="configuration"></param>
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="services"></param>
         public void ConfigureServices(IServiceCollection services)
         {
 
@@ -106,7 +119,7 @@ namespace Library.API
                         ValidAudience = "https://localhost:5001",
                         ValidIssuer = "https://localhost:5001",
 
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("KadirOgreten2020!!!!"))
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("KadirOgreten2021!!!!"))
                     };
                 });
 
@@ -125,7 +138,7 @@ namespace Library.API
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     In = ParameterLocation.Header,
-                    Description = "Api anahtarýnýzý giriniz.",
+                    Description = "Api anahtarÄ±nÄ±zÄ± giriniz.",
                     Name = "Authorization",
                     Type = SecuritySchemeType.ApiKey
                 });
@@ -183,6 +196,12 @@ namespace Library.API
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="app"></param>
+        /// <param name="env"></param>
+        /// <param name="provider"></param>
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IApiVersionDescriptionProvider provider)
         {
             if (env.IsDevelopment())
